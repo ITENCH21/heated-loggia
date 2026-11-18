@@ -201,7 +201,7 @@ body::after {
 .services-grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 6vw, 120px); align-items: start; }
 .services-intro { position: sticky; top: 112px; display: grid; gap: 20px; justify-items: start; }
 .works-list li {
-  display: grid; grid-template-columns: 1fr auto; gap: 4px 24px;
+  display: grid; gap: 4px;
   padding: 22px 0; border-bottom: 1px solid rgba(23,33,43,.12);
 }
 .works-list li:first-child { border-top: 1px solid rgba(23,33,43,.12); }

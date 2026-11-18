@@ -45,7 +45,6 @@
 
     add("Демонтаж и вывоз мусора", PRICES.demolition);
     add(s.glazing === "warm" ? "Тёплое остекление" : "Холодное остекление", PRICES.glazing[s.glazing] * L);
-    if (s.extend && s.type === "balcony") add("Вынос и расширение", PRICES.extendBase + PRICES.extendPerM * L);
     if (s.insulation) add("Утепление пола, стен, потолка", PRICES.insulation * s.area);
     add("Отделка стен и потолка", PRICES.finish[s.finish] * s.area);
     add("Пол", PRICES.floor[s.floor] * s.area);
@@ -57,7 +56,7 @@
     if (s.cabinet) add("Шкаф или тумба", PRICES.cabinet);
 
     const total = lines.reduce((a, l) => a + l[1], 0);
-    let days = 4 + s.area * 0.7 + (s.glazing !== "none" ? 2 : 0) + (s.extend ? 3 : 0) + (s.cabinet ? 1 : 0);
+    let days = 4 + s.area * 0.7 + (s.glazing !== "none" ? 2 : 0) + (s.cabinet ? 1 : 0);
     days = Math.round(days);
     return { total, lines, days, L };
   }
@@ -75,7 +74,6 @@
       lights: fd.has("lights"),
       sill: fd.has("sill"),
       cabinet: fd.has("cabinet"),
-      extend: fd.has("extend"),
       sockets: parseInt(document.getElementById("sockets").value || "0", 10)
     };
   }
@@ -97,7 +95,6 @@
     const rangeEl = document.getElementById("range");
     const linesEl = document.getElementById("lines");
     const daysEl = document.getElementById("days");
-    const extendToggle = form.querySelector(".only-balcony");
 
     let shown = 0;
     let raf = 0;
@@ -124,8 +121,6 @@
       area.style.setProperty("--p", p + "%");
 
       const isBalcony = s.type === "balcony";
-      extendToggle.classList.toggle("is-disabled", !isBalcony);
-      extendToggle.querySelector("input").disabled = !isBalcony;
 
       const r = compute(s);
       animateTotal(r.total);
