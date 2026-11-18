@@ -1,9 +1,20 @@
-// Связка 3D-разреза (js/layers3d.js) со страницей: список слоёв, подписи, скролл.
+// Связка 3D-разреза (js/layers3d.js) со страницей.
+// Прокрутка страницы разрез не трогает: посетитель сам нажимает «Разобрать на слои»,
+// листает слои стрелками (или клавишами ← →) и жмёт «Собрать», чтобы выйти.
 const host = document.getElementById("layers3d");
 const list = document.querySelector(".layer-list");
 const detail = document.querySelector(".layer-detail");
 const labelsBox = document.querySelector(".layers-labels");
 const fallback = document.querySelector(".ph-layers");
+const ui = document.querySelector(".layers-ui");
+const startBtn = document.querySelector(".layers-start");
+const nav = document.querySelector(".layers-nav");
+const prevBtn = document.querySelector(".ln-prev");
+const nextBtn = document.querySelector(".ln-next");
+const closeBtn = document.querySelector(".ln-close");
+const countEl = document.querySelector(".ln-count");
+const nameEl = document.querySelector(".ln-name");
+const section = document.getElementById("layers");
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const SWATCH = {
@@ -15,10 +26,12 @@ const SWATCH = {
 const swatchFor = (layer) => SWATCH[layer.id] || "#B9C1C2";
 const shortName = (name) => name.split(/[:,(]/)[0].replace(/\s+\d.*$/, "").trim();
 const fmtTemp = (t) => (typeof t === "number" ? (t > 0 ? "+" : t < 0 ? "−" : "") + Math.abs(Math.round(t)) + "°" : "");
+const groupName = { wall: "Стена", floor: "Пол" };
 
 function showFallback() {
   host.remove();
   labelsBox.remove();
+  if (ui) ui.remove();
   fallback.hidden = false;
 }
 
@@ -35,31 +48,87 @@ async function boot() {
   const items = new Map();
   const labels = new Map();
 
-  // Активный слой: то, на что навёл посетитель, иначе слой из «экскурсии» по скроллу
-  let userLayer = null, tourLayer = null, shownId;
+  // Активный слой: на что навёл посетитель, иначе выбранный стрелками
+  let hoverLayer = null, pickedLayer = null, shownId;
   function render() {
-    const layer = userLayer || tourLayer;
+    const layer = hoverLayer || pickedLayer;
     const id = layer ? layer.id : null;
     if (id === shownId) return;
     shownId = id;
     ctl.highlight(id);
     items.forEach((li, k) => li.classList.toggle("is-active", k === id));
     labels.forEach((el, k) => el.classList.toggle("is-active", k === id));
-    detail.textContent = layer ? `${layer.name}. ${layer.note || ""}` : "";
+    detail.textContent = layer ? `${layer.name}, ${fmtTemp(layer.temp)}. ${layer.note || ""}` : "";
   }
-  const setActive = (layer) => { userLayer = layer; render(); };
+  const setHover = (layer) => { hoverLayer = layer; render(); };
 
   try {
-    ctl = mod.createLayers3D(host, { autoRotate: !reduce, onLayerChange: setActive });
+    ctl = mod.createLayers3D(host, { autoRotate: !reduce, onLayerChange: setHover });
   } catch (e) {
     console.warn("WebGL недоступен:", e);
     return showFallback();
   }
+  const L = ctl.layers;
 
-  // Список слоёв по группам
-  const groups = { wall: "Стена", floor: "Пол" };
-  Object.entries(groups).forEach(([g, title]) => {
-    const layers = ctl.layers.filter((l) => l.group === g);
+  // ---------- режим «разобрано» ----------
+  let open = false, idx = 0;
+  const state = { t: 0 };
+  const gsap = window.gsap;
+
+  function animateExplode(to) {
+    if (gsap && !reduce) {
+      gsap.to(state, { t: to, duration: 1.1, ease: "power2.inOut", overwrite: true, onUpdate: () => ctl.setExplode(state.t) });
+    } else {
+      state.t = to; ctl.setExplode(to);
+    }
+  }
+
+  function go(i) {
+    idx = (i + L.length) % L.length;
+    pickedLayer = L[idx];
+    countEl.innerHTML = `<span class="ln-group">${groupName[pickedLayer.group] || ""} · </span>${idx + 1} / ${L.length}`;
+    nameEl.textContent = `${shortName(pickedLayer.name)} ${fmtTemp(pickedLayer.temp)}`;
+    render();
+  }
+
+  function openLayers(at = 0) {
+    if (!open) {
+      open = true;
+      section.classList.add("is-open");
+      startBtn.hidden = true;
+      nav.hidden = false;
+      animateExplode(1);
+    }
+    go(at);
+    nextBtn.focus({ preventScroll: true });
+  }
+
+  function closeLayers() {
+    if (!open) return;
+    open = false;
+    section.classList.remove("is-open");
+    pickedLayer = null;
+    render();
+    animateExplode(0);
+    nav.hidden = true;
+    startBtn.hidden = false;
+    startBtn.focus({ preventScroll: true });
+  }
+
+  startBtn.addEventListener("click", () => openLayers(0));
+  prevBtn.addEventListener("click", () => go(idx - 1));
+  nextBtn.addEventListener("click", () => go(idx + 1));
+  closeBtn.addEventListener("click", closeLayers);
+  section.addEventListener("keydown", (e) => {
+    if (!open) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); go(idx + 1); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); go(idx - 1); }
+    else if (e.key === "Escape") { e.preventDefault(); closeLayers(); }
+  });
+
+  // ---------- список слоёв слева: наведение подсвечивает, клик открывает слой ----------
+  Object.entries(groupName).forEach(([g, title]) => {
+    const layers = L.filter((l) => l.group === g);
     if (!layers.length) return;
     const head = document.createElement("li");
     head.className = "group-title";
@@ -68,29 +137,27 @@ async function boot() {
     layers.forEach((l) => {
       const li = document.createElement("li");
       li.tabIndex = 0;
+      li.setAttribute("role", "button");
       li.innerHTML = `<i style="--c:${swatchFor(l)}"></i><span>${l.name}</span><b>${fmtTemp(l.temp)}</b>`;
-      const on = () => setActive(l);
-      const off = () => setActive(null);
-      li.addEventListener("mouseenter", on);
-      li.addEventListener("focus", on);
-      li.addEventListener("mouseleave", off);
-      li.addEventListener("blur", off);
+      li.addEventListener("mouseenter", () => setHover(l));
+      li.addEventListener("mouseleave", () => setHover(null));
+      li.addEventListener("click", () => openLayers(L.indexOf(l)));
+      li.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLayers(L.indexOf(l)); } });
       list.appendChild(li);
       items.set(l.id, li);
 
       const tag = document.createElement("span");
-      tag.textContent = shortName(l.name) + (typeof l.temp === "number" ? "  " + fmtTemp(l.temp) : "");
+      tag.textContent = shortName(l.name) + "  " + fmtTemp(l.temp);
       labelsBox.appendChild(tag);
       labels.set(l.id, tag);
     });
   });
 
-  // Подписи следуют за слоями, видны когда пирог раскрыт
-  let explode = reduce ? 1 : 0;
-  ctl.setExplode(explode);
+  // ---------- подпись над активным слоем ----------
+  ctl.setExplode(0);
   function placeLabels() {
     labels.forEach((el, id) => {
-      const on = id === shownId && window.innerWidth > 700;
+      const on = id === shownId && state.t > 0.6 && window.innerWidth > 700;
       const p = on && ctl.project(id);
       if (!p || p.visible === false) { el.classList.remove("is-on"); return; }
       el.style.transform = `translate(${p.x}px, ${p.y}px) translate(-50%, -150%)`;
@@ -100,40 +167,20 @@ async function boot() {
   }
   requestAnimationFrame(placeLabels);
 
-  // Скролл раскрывает пирог
-  const gsap = window.gsap, ST = window.ScrollTrigger;
-  if (!reduce && gsap && ST) {
-    gsap.registerPlugin(ST);
-    const state = { t: 0 };
-    const mm = gsap.matchMedia();
-    mm.add("(min-width: 1081px)", () => {
-      // первая треть скролла раскрывает пирог, дальше слои по очереди подсвечиваются
-      const N = ctl.layers.length;
-      const tw = gsap.to(state, {
-        t: 1, ease: "none",
-        onUpdate: () => {
-          explode = Math.min(1, state.t / 0.3);
-          ctl.setExplode(explode);
-          const k = (state.t - 0.36) / 0.6;
-          tourLayer = k < 0 || k > 1 ? null : ctl.layers[Math.min(N - 1, Math.floor(k * N))];
-          render();
-        },
-        scrollTrigger: { trigger: ".layers-pin", start: "top top", end: "+=260%", pin: true, scrub: 0.6 }
+  // ---------- мягко привлекаем внимание к кнопке, когда блок появился на экране ----------
+  if ("IntersectionObserver" in window && !reduce) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && !open) {
+          startBtn.classList.remove("is-nudge");
+          void startBtn.offsetWidth; // перезапуск анимации
+          startBtn.classList.add("is-nudge");
+        }
       });
-      return () => { tw.kill(); tourLayer = null; render(); };
-    });
-    mm.add("(max-width: 1080px)", () => {
-      const tw = gsap.to(state, {
-        t: 1, ease: "none",
-        onUpdate: () => { explode = state.t; ctl.setExplode(explode); },
-        scrollTrigger: { trigger: ".layers-stage", start: "top 75%", end: "bottom 35%", scrub: 0.8 }
-      });
-      return () => tw.kill();
-    });
+    }, { threshold: 0.6 });
+    io.observe(host);
   }
 }
 
-// main.js ставит GSAP через defer; модули тоже выполняются после парсинга,
-// но ждём DOMContentLoaded, чтобы ScrollTrigger уже был зарегистрирован
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
 else boot();
