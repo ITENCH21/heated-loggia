@@ -191,6 +191,43 @@
     update();
   }
 
+  /* ---------- Месяцы в заголовке: стираем и печатаем следующий ---------- */
+  function monthTyper() {
+    const el = $(".js-month");
+    if (!el || reduce) return;
+    const caret = el.nextElementSibling;
+    const months = ["сентябре", "октябре", "ноябре", "декабре", "январе", "феврале",
+                    "марте", "апреле", "мае", "июне", "июле", "августе"];
+    let i = 0;
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const visible = () => document.visibilityState === "visible";
+    async function erase() {
+      while (el.textContent.length) {
+        el.textContent = el.textContent.slice(0, -1);
+        await wait(45);
+      }
+    }
+    async function type(word) {
+      for (let k = 1; k <= word.length; k++) {
+        el.textContent = word.slice(0, k);
+        await wait(95);
+      }
+    }
+    (async function loop() {
+      await wait(2200); // даём досмотреть открытие страницы с «январе»
+      for (;;) {
+        if (!visible()) { await wait(500); continue; }
+        caret && caret.classList.add("is-typing");
+        await erase();
+        await wait(180);
+        await type(months[i]);
+        caret && caret.classList.remove("is-typing");
+        i = (i + 1) % months.length;
+        await wait(1700);
+      }
+    })();
+  }
+
   /* ---------- 4. Анимации ---------- */
   function heroTemp() {
     const el = $(".js-temp");
@@ -337,5 +374,6 @@
     leadForm();
     motion();
     heroTemp();
+    monthTyper();
   });
 })();
