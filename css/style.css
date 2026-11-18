@@ -197,28 +197,25 @@ fieldset { border: 0; min-width: 0; }
 
 /* ---------- process ---------- */
 .process { background: var(--ink); color: #fff; border-radius: var(--r-l) var(--r-l) 0 0; overflow: hidden; }
-.process-pin { padding: clamp(56px, 10vh, 120px) 0 clamp(40px, 7vh, 88px); }
-.process-head { display: grid; grid-template-columns: 1fr auto; gap: 16px 48px; align-items: end; }
+.process-pin { padding: var(--sec) 0 calc(var(--sec) * .8); }
+.process-head { display: grid; grid-template-columns: 1fr auto; gap: 16px 48px; align-items: end; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,.12); }
 .process-head .muted { color: #9DAAB6; }
-.process-progress { grid-column: 1 / -1; height: 2px; background: rgba(255,255,255,.12); margin-top: 32px; }
-.process-progress span { display: block; height: 100%; width: 0; background: var(--penoplex); }
 .steps {
-  display: flex; gap: clamp(16px, 2vw, 28px);
-  padding: 48px var(--gutter) 0;
-  width: max-content;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+  padding-top: 48px;
 }
-.step {
-  width: min(420px, 78vw);
-  display: grid; grid-template-rows: auto 1fr auto; gap: 20px;
-}
+.step { display: grid; grid-template-rows: auto auto 1fr; gap: 18px; align-content: start; }
 .step-num {
-  font-size: clamp(4rem, 3rem + 4vw, 7.5rem); line-height: .8; font-weight: 300;
+  font-size: clamp(3rem, 2rem + 2.5vw, 4.75rem); line-height: .8; font-weight: 300;
   letter-spacing: -0.06em; color: var(--penoplex);
 }
-.step h3 { font-size: 1.75rem; font-weight: 500; letter-spacing: -0.03em; margin-bottom: 10px; }
-.step p { color: #C9D2DA; max-width: 36ch; }
-.step .step-meta { margin-top: 14px; color: #8D9AA6; font-size: var(--t-s); }
-.ph-step { aspect-ratio: 16 / 10; background-color: var(--ink-2); background-image: repeating-linear-gradient(135deg, transparent 0 11px, rgba(255,255,255,.05) 11px 12px); }
+.step .ph-step { order: 1; }
+.step .step-body { order: 2; }
+.step h3 { font-size: 1.375rem; font-weight: 500; letter-spacing: -0.03em; margin-bottom: 8px; }
+.step p { color: #C9D2DA; font-size: var(--t-s); line-height: 1.5; }
+.step .step-meta { margin-top: 12px; color: #8D9AA6; font-size: var(--t-xs); }
+.ph-step { aspect-ratio: 4 / 3; border-radius: var(--r-s); background-color: var(--ink-2); background-image: repeating-linear-gradient(135deg, transparent 0 11px, rgba(255,255,255,.05) 11px 12px); }
 .ph-step::after { color: #8D9AA6; }
 
 /* ---------- layers ---------- */
@@ -256,6 +253,20 @@ fieldset { border: 0; min-width: 0; }
 .ph-layers { position: absolute; inset: 0; }
 .temp-scale { position: absolute; left: 6%; right: 6%; bottom: -8px; display: flex; align-items: center; gap: 14px; font-size: var(--t-xs); color: var(--steel); }
 .temp-scale i { flex: 1; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--cold), var(--pine), var(--penoplex)); }
+
+/* ---------- ideas ---------- */
+.ideas { padding: var(--sec) 0 0; }
+.ideas-head { display: grid; gap: 18px; margin-bottom: 48px; }
+.ideas-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.ideas-grid[data-count="3"] { grid-template-columns: repeat(3, 1fr); }
+.ideas-grid[data-count="4"] { grid-template-columns: repeat(4, 1fr); }
+.idea { display: grid; gap: 14px; }
+.idea-img { aspect-ratio: 4 / 3; border-radius: var(--r-m); overflow: hidden; background: var(--frost-2); }
+.idea-img img { width: 100%; height: 100%; object-fit: cover; }
+.idea figcaption { display: grid; gap: 4px; }
+.idea figcaption b { font-size: var(--t-l); font-weight: 500; letter-spacing: -0.02em; }
+.idea figcaption span { color: var(--steel); font-size: var(--t-s); }
+.ideas-note { margin-top: 24px; font-size: var(--t-xs); color: var(--steel); }
 
 /* ---------- calculator ---------- */
 .calc { padding: var(--sec) 0; }
@@ -357,8 +368,7 @@ input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; border-radius
 .gallery::-webkit-scrollbar { display: none; }
 .gallery.is-drag { cursor: grabbing; }
 .gallery-track { display: flex; gap: 16px; padding: 0 var(--gutter) 0 max(var(--gutter), calc((100vw - var(--wrap)) / 2 + var(--gutter))); width: max-content; }
-.gallery-track .ph { width: clamp(240px, 28vw, 380px); aspect-ratio: 3 / 4; flex: none; }
-.gallery-track .ph:nth-child(3n+2) { aspect-ratio: 4 / 5; align-self: end; }
+.gallery-track .ph { width: clamp(260px, 30vw, 400px); aspect-ratio: 4 / 5; flex: none; }
 .gallery-track img { pointer-events: none; }
 .gallery-track figcaption {
   position: absolute; left: 12px; right: 12px; bottom: 12px;
@@ -441,6 +451,8 @@ input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; border-radius
 
 /* ---------- responsive ---------- */
 @media (max-width: 1080px) {
+  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 48px; }
+  .ideas-grid[data-count="3"], .ideas-grid[data-count="4"] { grid-template-columns: repeat(2, 1fr); }
   .header-nav { display: none; }
   .header-phone { margin-left: auto; }
   .layers-grid { grid-template-columns: 1fr; }
@@ -471,12 +483,15 @@ input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; border-radius
   .services-grid, .faq-grid, .director-grid, .contact-grid { grid-template-columns: 1fr; }
   .services-intro { position: static; }
   .process-head { grid-template-columns: 1fr; }
-  .steps { width: auto; flex-direction: column; padding-top: 40px; gap: 48px; }
-  .step { width: auto; grid-template-columns: auto 1fr; grid-template-rows: auto auto; gap: 16px 20px; }
+  .steps, .steps.wrap { grid-template-columns: 1fr; padding-top: 40px; gap: 48px; }
+  .step { grid-template-columns: auto 1fr; grid-template-rows: auto auto; gap: 16px 20px; }
   .step-num { font-size: 3.5rem; grid-row: 1; }
+  .step .step-body { order: 0; }
+  .step .ph-step { order: 3; }
   .ph-step { grid-column: 1 / -1; }
   .layers-pin { min-height: 0; }
   .toggles { grid-template-columns: 1fr; }
+  .ideas-grid, .ideas-grid[data-count] { grid-template-columns: 1fr; }
   .swatches { grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .swatch { font-size: var(--t-xs); }
   .director-photo { max-height: 520px; aspect-ratio: 4 / 5; }

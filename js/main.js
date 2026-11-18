@@ -57,6 +57,41 @@
     });
   }
 
+  function buildIdeas() {
+    const grid = $("#ideasGrid");
+    const section = $("#ideas");
+    if (!grid || !(S.ideas || []).length) return;
+    const cards = S.ideas.map((it) => new Promise((ok) => {
+      const img = new Image();
+      img.onload = () => ok({ it, img });
+      img.onerror = () => ok(null);
+      img.src = "assets/img/ideas/" + it.file;
+    }));
+    Promise.all(cards).then((list) => {
+      list.filter(Boolean).forEach(({ it, img }) => {
+        const fig = document.createElement("figure");
+        fig.className = "idea";
+        img.alt = it.title + ": " + it.note;
+        img.loading = "lazy";
+        img.decoding = "async";
+        const cap = document.createElement("figcaption");
+        cap.innerHTML = "<b></b><span></span>";
+        cap.querySelector("b").textContent = it.title;
+        cap.querySelector("span").textContent = it.note;
+        const frame = document.createElement("div");
+        frame.className = "idea-img";
+        frame.appendChild(img);
+        fig.append(frame, cap);
+        grid.appendChild(fig);
+      });
+      if (grid.children.length) {
+        grid.dataset.count = grid.children.length;
+        section.hidden = false;
+        if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+      }
+    });
+  }
+
   function lazyPlaceholders() {
     const figs = $$(".ph[data-img]");
     if (!("IntersectionObserver" in window)) return figs.forEach(loadPlaceholder);
@@ -129,32 +164,6 @@
         .from(".thermo", { y: 24, opacity: 0, duration: 0.6 }, 0.6);
     }
 
-    // Шаги процесса: горизонтальная прокрутка на десктопе
-    const mm = gsap.matchMedia();
-    mm.add("(min-width: 861px) and (prefers-reduced-motion: no-preference)", () => {
-      const steps = $(".steps");
-      const bar = $(".process-progress span");
-      const dist = () => Math.max(0, steps.scrollWidth - window.innerWidth);
-      const tw = gsap.to(steps, {
-        x: () => -dist(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".process-pin",
-          start: "top top",
-          end: () => "+=" + dist(),
-          pin: true,
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => { bar.style.width = self.progress * 100 + "%"; }
-        }
-      });
-      return () => tw.kill();
-    });
-    mm.add("(max-width: 860px)", () => {
-      const bar = $(".process-progress span");
-      const st = ST.create({ trigger: ".steps", start: "top 70%", end: "bottom 70%", onUpdate: (s) => { bar.style.width = s.progress * 100 + "%"; } });
-      return () => st.kill();
-    });
   }
 
   /* ---------- 5. До / после ---------- */
@@ -268,6 +277,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     applyConfig();
     buildGallery();
+    buildIdeas();
     lazyPlaceholders();
     chrome();
     beforeAfter();
