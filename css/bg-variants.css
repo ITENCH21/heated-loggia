@@ -1,0 +1,52 @@
+/* Варианты фона. Включаются классом на <html>: bg-a, bg-b, bg-c.
+   Для примерки: index.html?bg=a | ?bg=b | ?bg=c */
+
+/* ---------- A. «Чертёж»: тонкая архитектурная сетка ---------- */
+html.bg-a body {
+  background-color: var(--frost);
+  background-image:
+    linear-gradient(rgba(23,33,43,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23,33,43,.05) 1px, transparent 1px),
+    linear-gradient(rgba(23,33,43,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23,33,43,.025) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: center top;
+}
+html.bg-a .hero::before {
+  background:
+    radial-gradient(70% 60% at 85% 10%, rgba(143,179,201,.35), transparent 70%),
+    radial-gradient(50% 50% at 75% 95%, rgba(242,106,27,.10), transparent 70%);
+}
+html.bg-a .works-list li,
+html.bg-a .faq-list details { background: linear-gradient(90deg, rgba(231,236,235,.92), rgba(231,236,235,.6)); }
+
+/* ---------- B. «Свет из окна»: тёплые блики и зерно бумаги ---------- */
+html.bg-b body { background: #E9EDEA; }
+html.bg-b body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(55% 45% at 100% 100%, rgba(242,106,27,.13), transparent 70%),
+    radial-gradient(45% 55% at 0% 70%, rgba(226,194,156,.45), transparent 70%),
+    radial-gradient(60% 50% at 80% 0%, rgba(143,179,201,.35), transparent 70%);
+}
+html.bg-b body::after {
+  content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none; opacity: .06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html.bg-b .hero::before { display: none; }
+
+/* ---------- C. «Холод и тепло»: чередование секций и фактура вагонки ---------- */
+html.bg-c .services,
+html.bg-c .ideas,
+html.bg-c .faq {
+  background-color: var(--warm);
+  background-image: repeating-linear-gradient(90deg, transparent 0 71px, rgba(184,135,90,.09) 71px 72px);
+  border-radius: var(--r-l);
+  margin: 0 clamp(8px, 1.2vw, 16px);
+}
+html.bg-c .services { padding-top: var(--sec); }
+html.bg-c .ideas { padding-bottom: var(--sec); }
+html.bg-c .calc,
+html.bg-c .works { background: linear-gradient(180deg, var(--frost), #DDE5E7); }
+html.bg-c .director { background: var(--frost); }
+html.bg-c .works-list li { border-color: rgba(184,135,90,.25); }
