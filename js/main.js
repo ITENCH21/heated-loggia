@@ -198,7 +198,7 @@
     const caret = el.nextElementSibling;
     const months = ["сентябре", "октябре", "ноябре", "декабре", "январе", "феврале",
                     "марте", "апреле", "мае", "июне", "июле", "августе"];
-    let i = 0;
+    let i = 1; // на странице уже стоит «сентябре», дальше печатаем «октябре»
     const wait = (ms) => new Promise((r) => setTimeout(r, ms));
     const visible = () => document.visibilityState === "visible";
     async function erase() {
@@ -214,7 +214,7 @@
       }
     }
     (async function loop() {
-      await wait(2200); // даём досмотреть открытие страницы с «январе»
+      await wait(2200); // даём досмотреть открытие страницы с «сентябре»
       for (;;) {
         if (!visible()) { await wait(500); continue; }
         caret && caret.classList.add("is-typing");
