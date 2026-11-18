@@ -150,6 +150,7 @@ body::after {
 }
 .site-header.is-scrolled { background: rgba(231,236,235,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 rgba(23,33,43,.08); }
 .site-header.is-hidden { transform: translateY(-100%); }
+@media (max-width: 860px) { .site-header { transition: background-color .3s, box-shadow .3s; } .site-header.is-hidden { transform: none; } }
 .header-row { display: flex; align-items: center; gap: 28px; height: 76px; }
 .logo { white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.02em; text-decoration: none; font-size: 1.125rem; }
 .logo-mark { width: 34px; height: 34px; margin: -2px 0; }

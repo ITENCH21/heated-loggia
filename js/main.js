@@ -164,18 +164,31 @@
     const header = $(".site-header");
     const bar = $(".mobile-bar");
     const contact = $("#contact");
-    let lastY = 0;
-    const onScroll = () => {
-      const y = window.scrollY;
+    // На телефоне шапка не прячется: при инерционной прокрутке это выглядит как дёрганье.
+    // На компьютере прячем только после уверенной прокрутки вниз (80 px) и показываем
+    // после прокрутки вверх на 40 px, мелкие колебания игнорируем.
+    const mobile = window.matchMedia("(max-width: 860px), (pointer: coarse)");
+    let lastY = window.scrollY, travel = 0, hidden = false, ticking = false;
+    const setHidden = (v) => { if (v !== hidden) { hidden = v; header.classList.toggle("is-hidden", v); } };
+    const update = () => {
+      ticking = false;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const y = Math.min(Math.max(window.scrollY, 0), max); // без «резинки» iOS
+      const dy = y - lastY;
+      lastY = y;
       header.classList.toggle("is-scrolled", y > 20);
-      header.classList.toggle("is-hidden", y > 400 && y > lastY + 4);
-      if (y < lastY - 4) header.classList.remove("is-hidden");
+      if (mobile.matches || y < 300) { travel = 0; setHidden(false); }
+      else if (dy !== 0) {
+        travel = Math.sign(dy) === Math.sign(travel) ? travel + dy : dy;
+        if (travel > 80) setHidden(true);
+        else if (travel < -40) setHidden(false);
+      }
       const nearForm = contact && contact.getBoundingClientRect().top < window.innerHeight * 0.6;
       bar && bar.classList.toggle("is-on", y > window.innerHeight * 0.7 && !nearForm);
-      lastY = y;
     };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    update();
   }
 
   /* ---------- 4. Анимации ---------- */
