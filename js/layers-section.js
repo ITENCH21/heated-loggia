@@ -28,10 +28,17 @@ const shortName = (name) => name.split(/[:,(]/)[0].replace(/\s+\d.*$/, "").trim(
 const fmtTemp = (t) => (typeof t === "number" ? (t > 0 ? "+" : t < 0 ? "−" : "") + Math.abs(Math.round(t)) + "°" : "");
 const groupName = { wall: "Стена", floor: "Пол" };
 
+const viewBox = document.querySelector(".layers-view");
+function loadPhoto() {
+  const img = fallback.querySelector("img");
+  if (!img.src) img.src = img.dataset.src;
+}
 function showFallback() {
   host.remove();
   labelsBox.remove();
   if (ui) ui.remove();
+  if (viewBox) viewBox.remove();
+  loadPhoto();
   fallback.hidden = false;
 }
 
@@ -114,6 +121,20 @@ async function boot() {
     startBtn.hidden = false;
     startBtn.focus({ preventScroll: true });
   }
+
+  // переключатель «3D-макет / Фото разреза»
+  viewBox.hidden = false;
+  viewBox.querySelectorAll(".lv-btn").forEach((b) => b.addEventListener("click", () => {
+    const photo = b.dataset.view === "photo";
+    if (photo) { closeLayers(); loadPhoto(); }
+    fallback.hidden = !photo;
+    section.classList.toggle("is-photo", photo);
+    viewBox.querySelectorAll(".lv-btn").forEach((x) => {
+      const on = x === b;
+      x.classList.toggle("is-on", on);
+      x.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }));
 
   startBtn.addEventListener("click", () => openLayers(0));
   prevBtn.addEventListener("click", () => go(idx - 1));

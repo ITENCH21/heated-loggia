@@ -35,26 +35,84 @@
   }
 
   function buildGallery() {
-    const track = $("#galleryTrack");
-    if (!track) return;
-    (S.gallery || []).forEach((item, i) => {
+    const grid = $("#galleryTrack");
+    if (!grid) return;
+    const photos = (S.gallery || []).map((item, i) => {
       const file = typeof item === "string" ? item : item.file;
       const caption = typeof item === "string" ? "" : item.caption || "";
+      return { src: "assets/img/avito/" + file, caption, alt: caption || "Наша работа, фото " + (i + 1) };
+    });
+    photos.forEach((ph, i) => {
       const fig = document.createElement("figure");
-      fig.className = "ph";
-      fig.dataset.img = "assets/img/avito/" + file;
-      fig.dataset.label = file;
+      fig.className = "ph wg-item";
+      fig.setAttribute("role", "listitem");
+      fig.dataset.img = ph.src;
+      fig.dataset.label = ph.src.split("/").pop();
       const img = document.createElement("img");
-      img.alt = caption || "Наша работа, фото " + (i + 1);
+      img.alt = ph.alt;
       img.hidden = true;
       fig.appendChild(img);
-      if (caption) {
+      if (ph.caption) {
         const fc = document.createElement("figcaption");
-        fc.textContent = caption;
+        fc.textContent = ph.caption;
         fig.appendChild(fc);
       }
-      track.appendChild(fig);
+      const open = document.createElement("button");
+      open.type = "button";
+      open.className = "wg-open";
+      open.setAttribute("aria-label", "Открыть крупно: " + ph.alt);
+      open.addEventListener("click", () => lightbox(photos, i));
+      fig.appendChild(open);
+      grid.appendChild(fig);
     });
+    // плитка со ссылкой на Авито закрывает сетку
+    if (S.avito) {
+      const cta = document.createElement("a");
+      cta.className = "wg-cta";
+      cta.href = S.avito; cta.target = "_blank"; cta.rel = "noopener";
+      cta.setAttribute("role", "listitem");
+      cta.innerHTML = '<b>Больше работ и отзывы клиентов</b><span>В нашем профиле на Авито: фото объектов, цены и что пишут заказчики.</span><em>Открыть профиль на Авито</em>';
+      grid.appendChild(cta);
+    }
+  }
+
+  /* ---------- просмотр фото крупно ---------- */
+  function lightbox(photos, start) {
+    const dlg = $(".lightbox");
+    if (!dlg || typeof dlg.showModal !== "function") { window.open(photos[start].src, "_blank", "noopener"); return; }
+    const img = $(".lb-img", dlg), cap = $(".lb-cap", dlg), count = $(".lb-count", dlg);
+    let i = start;
+    const show = () => {
+      const ph = photos[i];
+      img.src = ph.src; img.alt = ph.alt;
+      cap.textContent = ph.caption;
+      count.textContent = (i + 1) + " / " + photos.length;
+    };
+    const step = (d) => { i = (i + d + photos.length) % photos.length; show(); };
+    if (!dlg.dataset.bound) {
+      dlg.dataset.bound = "1";
+      $(".lb-prev", dlg).addEventListener("click", () => dlg._step(-1));
+      $(".lb-next", dlg).addEventListener("click", () => dlg._step(1));
+      $(".lb-close", dlg).addEventListener("click", () => dlg.close());
+      dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") dlg._step(1);
+        if (e.key === "ArrowLeft") dlg._step(-1);
+      });
+      dlg.addEventListener("close", () => { if (window.__lenis) window.__lenis.start(); });
+      let x0 = null; // свайп на телефоне
+      dlg.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+      dlg.addEventListener("touchend", (e) => {
+        if (x0 === null) return;
+        const dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 50) dlg._step(dx < 0 ? 1 : -1);
+        x0 = null;
+      });
+    }
+    dlg._step = step;
+    show();
+    if (window.__lenis) window.__lenis.stop();
+    dlg.showModal();
   }
 
   function buildIdeas() {
@@ -186,29 +244,6 @@
     set();
   }
 
-  /* ---------- 6. Галерея: перетаскивание мышью ---------- */
-  function galleryDrag() {
-    const g = $(".gallery");
-    if (!g) return;
-    let down = false, x0 = 0, s0 = 0, moved = false;
-    g.addEventListener("pointerdown", (e) => {
-      if (e.pointerType !== "mouse") return;
-      down = true; moved = false; x0 = e.clientX; s0 = g.scrollLeft; g.classList.add("is-drag");
-    });
-    window.addEventListener("pointermove", (e) => {
-      if (!down) return;
-      const dx = e.clientX - x0;
-      if (Math.abs(dx) > 3) moved = true;
-      g.scrollLeft = s0 - dx;
-    });
-    window.addEventListener("pointerup", () => { down = false; g.classList.remove("is-drag"); });
-    g.addEventListener("click", (e) => { if (moved) e.preventDefault(); }, true);
-    g.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") g.scrollBy({ left: 320, behavior: "smooth" });
-      if (e.key === "ArrowLeft") g.scrollBy({ left: -320, behavior: "smooth" });
-    });
-  }
-
   /* ---------- 7. Форма заявки ---------- */
   function phoneMask(input) {
     const fmt = (digits) => {
@@ -286,7 +321,6 @@
     lazyPlaceholders();
     chrome();
     beforeAfter();
-    galleryDrag();
     leadForm();
     motion();
     heroTemp();

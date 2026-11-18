@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" fill="none" stroke="#3E2F1F" stroke-width="1.3" stroke-linecap="round" font-family="Geologica, Arial, sans-serif" font-size="15">
+  <defs>
+    <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 0v10" stroke="#3E2F1F" stroke-width="1"/>
+    </pattern>
+    <marker id="tick" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M2 8L8 2" stroke="#3E2F1F" stroke-width="1.4"/>
+    </marker>
+  </defs>
+
+  <!-- План лоджии -->
+  <g transform="translate(70 90)">
+    <rect x="0" y="0" width="560" height="150" stroke-width="2.2"/>
+    <rect x="0" y="0" width="560" height="22" fill="url(#hatch)"/>
+    <path d="M0 150h560" stroke-width="2.2"/>
+    <path d="M120 0v22M240 0v22M360 0v22M480 0v22"/>
+    <rect x="200" y="150" width="140" height="10"/>
+    <path d="M200 160a80 80 0 0 1 80 -80" stroke-dasharray="4 5"/>
+    <path d="M0 -40h560" marker-start="url(#tick)" marker-end="url(#tick)"/>
+    <path d="M0 -50v20M560 -50v20"/>
+    <text x="262" y="-48" fill="#3E2F1F" stroke="none">6000</text>
+    <path d="M600 0v150" marker-start="url(#tick)" marker-end="url(#tick)"/>
+    <path d="M590 0h20M590 150h20"/>
+    <text x="612" y="80" fill="#3E2F1F" stroke="none">1400</text>
+    <text x="0" y="200" fill="#3E2F1F" stroke="none" font-size="17">План лоджии, М 1:25</text>
+  </g>
+
+  <!-- Фасад остекления -->
+  <g transform="translate(760 70)">
+    <rect x="0" y="0" width="520" height="260" stroke-width="2"/>
+    <rect x="14" y="14" width="492" height="232"/>
+    <path d="M137 14v232M260 14v232M383 14v232"/>
+    <path d="M14 190h492"/>
+    <path d="M30 40l80 120M153 40l80 120" stroke-dasharray="5 6"/>
+    <path d="M290 30l60 30-60 30" stroke-dasharray="5 6"/>
+    <path d="M0 290h520" marker-start="url(#tick)" marker-end="url(#tick)"/>
+    <text x="240" y="314" fill="#3E2F1F" stroke="none">5700</text>
+    <path d="M-36 0v260" marker-start="url(#tick)" marker-end="url(#tick)"/>
+    <text x="-96" y="134" fill="#3E2F1F" stroke="none">1500</text>
+    <text x="0" y="350" fill="#3E2F1F" stroke="none" font-size="17">Остекление ПВХ 70 мм, фасад</text>
+  </g>
+
+  <!-- Разрез стены: слои -->
+  <g transform="translate(90 420)">
+    <rect x="0" y="0" width="70" height="300" fill="url(#hatch)" stroke-width="2"/>
+    <rect x="70" y="0" width="6" height="300"/>
+    <rect x="76" y="0" width="50" height="300"/>
+    <path d="M76 20l50 20M76 60l50 20M76 100l50 20M76 140l50 20M76 180l50 20M76 220l50 20M76 260l50 20" stroke-width=".9"/>
+    <rect x="126" y="0" width="5" height="300"/>
+    <rect x="131" y="0" width="20" height="300" stroke-dasharray="2 4"/>
+    <rect x="151" y="0" width="12" height="300" stroke-width="1.8"/>
+    <path d="M40 -26h140"/>
+    <path d="M100 330l130 60h120"/>
+    <text x="240" y="384" fill="#3E2F1F" stroke="none">пеноплекс 50</text>
+    <path d="M128 330l150 20h120"/>
+    <text x="290" y="344" fill="#3E2F1F" stroke="none">пенофол 5</text>
+    <path d="M157 300l40 -30h160"/>
+    <text x="210" y="262" fill="#3E2F1F" stroke="none">вагонка 14</text>
+    <text x="0" y="-40" fill="#3E2F1F" stroke="none" font-size="17">Разрез 1–1</text>
+  </g>
+
+  <!-- Узел пола -->
+  <g transform="translate(560 520)">
+    <rect x="0" y="120" width="420" height="40" fill="url(#hatch)" stroke-width="2"/>
+    <path d="M0 116h420"/>
+    <rect x="20" y="66" width="30" height="50"/><rect x="190" y="66" width="30" height="50"/><rect x="360" y="66" width="30" height="50"/>
+    <path d="M50 76h140M50 96h140M220 76h140M220 96h140" stroke-width=".8"/>
+    <rect x="0" y="54" width="420" height="12"/>
+    <path d="M0 50h420" stroke-dasharray="10 4"/>
+    <rect x="0" y="38" width="420" height="10" stroke-width="1.6"/>
+    <path d="M440 38v122" marker-start="url(#tick)" marker-end="url(#tick)"/>
+    <text x="452" y="104" fill="#3E2F1F" stroke="none">110</text>
+    <text x="0" y="200" fill="#3E2F1F" stroke="none" font-size="17">Узел пола: лаги, ГВЛ, тёплый пол</text>
+  </g>
+
+  <!-- Штамп -->
+  <g transform="translate(1060 690)">
+    <rect x="0" y="0" width="270" height="130" stroke-width="1.8"/>
+    <path d="M0 40h270M0 75h270M0 105h270M110 0v130"/>
+    <text x="12" y="27" fill="#3E2F1F" stroke="none">Объект</text>
+    <text x="122" y="27" fill="#3E2F1F" stroke="none">Лоджия, кв. 47</text>
+    <text x="12" y="62" fill="#3E2F1F" stroke="none">Утепление</text>
+    <text x="122" y="62" fill="#3E2F1F" stroke="none">ЭППС 50</text>
+    <text x="12" y="95" fill="#3E2F1F" stroke="none">Лист</text>
+    <text x="122" y="95" fill="#3E2F1F" stroke="none">1 / 3</text>
+  </g>
+
+  <!-- Роза ветров -->
+  <g transform="translate(1250 470)">
+    <circle r="46"/>
+    <circle r="4" fill="#3E2F1F"/>
+    <path d="M0 -60V60M-60 0H60"/>
+    <path d="M0 -46l10 34h-20z" fill="#3E2F1F"/>
+    <text x="-5" y="-68" fill="#3E2F1F" stroke="none">С</text>
+  </g>
+</svg>

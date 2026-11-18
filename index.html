@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.css">
-  <link rel="stylesheet" href="css/style.css?v=202611181840">
+  <link rel="stylesheet" href="css/style.css?v=202611181848">
 
   <script type="importmap">
     { "imports": {
@@ -176,7 +176,11 @@
         <div class="layers-stage">
           <div class="layers-canvas" id="layers3d"></div>
           <div class="layers-labels" aria-hidden="true"></div>
-          <figure class="ph ph-layers" data-img="assets/img/gen/layers-cutaway.webp" data-label="layers-cutaway.webp: разрез утепления, запасная картинка" hidden><img alt="Разрез утеплённой стены и пола лоджии по слоям" hidden></figure>
+          <div class="layers-view" role="group" aria-label="Как показать разрез" hidden>
+            <button type="button" class="lv-btn is-on" data-view="3d" aria-pressed="true">3D-макет</button>
+            <button type="button" class="lv-btn" data-view="photo" aria-pressed="false">Фото разреза</button>
+          </div>
+          <figure class="ph-layers" hidden><img data-src="assets/img/gen/layers-cutaway.webp" alt="Разрез утеплённой стены и пола лоджии по слоям: кирпич, мембрана, пеноплекс, пенофол, обрешётка, вагонка; пол на лагах с тёплым полом"></figure>
           <div class="layers-ui">
             <button class="layers-start" type="button">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /><path d="M8 4l-4 3 4 3M16 14l4 3-4 3" /></svg>
@@ -300,7 +304,7 @@
   <section class="works" id="works" aria-labelledby="works-title">
     <div class="wrap works-head">
       <h2 class="h2" id="works-title">Наши работы</h2>
-      <p class="muted">Фото с объектов, без ретуши. Больше работ и отзывы клиентов в нашем профиле на Авито.</p>
+      <p class="muted">Фото с объектов, без ретуши. Нажмите на фото, чтобы рассмотреть его крупно.</p>
       <a class="link-arrow" data-cfg-href="avito" href="#" target="_blank" rel="noopener">Открыть профиль на Авито</a>
     </div>
 
@@ -313,21 +317,20 @@
       </div>
     </div>
 
-    <div class="gallery" tabindex="0" aria-label="Галерея работ, листается горизонтально">
-      <div class="gallery-track" id="galleryTrack"></div>
-    </div>
+    <div class="works-grid wrap" id="galleryTrack" role="list" aria-label="Фото наших работ"></div>
   </section>
 
   <!-- DIRECTOR -->
   <section class="director" id="director" aria-labelledby="director-title">
     <div class="wrap director-grid">
       <figure class="director-photo">
+        <span class="tape" aria-hidden="true"></span>
         <img src="assets/img/team/director.webp" width="683" height="1024" alt="Руководитель компании" data-cfg-alt="directorName" loading="lazy">
       </figure>
       <div class="director-copy">
-        <h2 class="h2" id="director-title">Отвечаю за каждый балкон лично</h2>
+        <h2 class="h2" id="director-title">Каждый балкон принимаю сам</h2>
         <blockquote>
-          <p>Мы не берём больше объектов, чем можем сделать хорошо. Я сам проверяю каждую лоджию перед сдачей, а мой номер есть у каждого клиента. Если что-то пошло не так, звоните мне напрямую.</p>
+          <p>Берём столько объектов, сколько можем сделать хорошо. Перед сдачей я сам проверяю каждую лоджию. Мой номер есть у каждого клиента: если что-то не так, звоните мне напрямую.</p>
         </blockquote>
         <p class="director-name"><b data-cfg="directorName">Руслан</b><span>руководитель компании</span></p>
         <dl class="director-facts">
@@ -416,6 +419,17 @@
   </section>
 </main>
 
+<dialog class="lightbox" aria-label="Фото работы">
+  <figure class="lb-figure">
+    <img class="lb-img" alt="">
+    <figcaption class="lb-cap"></figcaption>
+  </figure>
+  <button class="lb-btn lb-prev" type="button" aria-label="Предыдущее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="lb-btn lb-next" type="button" aria-label="Следующее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button class="lb-btn lb-close" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <span class="lb-count" aria-live="polite"></span>
+</dialog>
+
 <footer class="site-footer">
   <div class="wrap footer-row">
     <p><b data-cfg="company">Тёплая лоджия</b><br><span data-cfg="legal">ИП / ООО, ИНН 0000000000</span></p>
@@ -433,10 +447,10 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js" defer></script>
-<script src="js/weather.js?v=202611181840" defer></script>
-<script src="js/config.js?v=202611181840" defer></script>
-<script src="js/calc.js?v=202611181840" defer></script>
-<script src="js/main.js?v=202611181840" defer></script>
-<script type="module" src="js/layers-section.js?v=202611181840"></script>
+<script src="js/weather.js?v=202611181848" defer></script>
+<script src="js/config.js?v=202611181848" defer></script>
+<script src="js/calc.js?v=202611181848" defer></script>
+<script src="js/main.js?v=202611181848" defer></script>
+<script type="module" src="js/layers-section.js?v=202611181848"></script>
 </body>
 </html>
