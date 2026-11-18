@@ -42,6 +42,11 @@ python3 -m http.server 8770
 ```bash
 git add -A && git commit -m "Что поменяли" && git push
 ```
-Через 1–2 минуты GitHub Pages пересоберёт сайт. Свой домен: Settings → Pages →
+Через 1–2 минуты GitHub Pages пересоберёт сайт.
+Если меняли CSS или JS, сначала обновите номер версии в `index.html`, иначе браузеры
+посетителей до 10 минут будут показывать старые файлы:
+```bash
+V=$(date +%Y%m%d%H%M); sed -i '' -E "s/\?v=[0-9]+/?v=$V/g" index.html
+``` Свой домен: Settings → Pages →
 Custom domain, плюс CNAME-запись у регистратора; тогда же поменяйте адрес в
 `og:image` и `og:url` в `index.html`.
