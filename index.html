@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Тёплые балконы и лоджии под ключ: остекление, утепление, отделка</title>
+  <meta name="description" content="Остекляем, утепляем и отделываем балконы и лоджии под ключ. Бесплатный замер, фиксированная смета в договоре, работы за 7–14 дней.">
+  <meta name="theme-color" content="#17212B">
+  <meta property="og:title" content="Лоджия, на которой тепло в январе">
+  <meta property="og:description" content="Остекление, утепление и отделка балконов под ключ. Рассчитайте стоимость онлайн.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://itench21.github.io/heated-loggia/assets/img/gen/og.jpg">
+  <meta property="og:url" content="https://itench21.github.io/heated-loggia/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script type="importmap">
+    { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    } }
+  </script>
+</head>
+<body>
+<a class="skip" href="#calc">Перейти к калькулятору</a>
+
+<header class="site-header" id="top">
+  <div class="wrap header-row">
+    <a class="logo" href="#top" aria-label="На главную">
+      <svg class="logo-mark" viewBox="0 0 1024 1024" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="64" stroke-linejoin="round"><rect x="176" y="224" width="672" height="576" rx="8"/><path d="M400 224v472M624 224v472"/></g><path d="M226 728H798" stroke="#F26A1B" stroke-width="80" stroke-linecap="round"/></svg>
+      <span data-cfg="company">Тёплая лоджия</span>
+    </a>
+    <nav class="header-nav" aria-label="Разделы страницы">
+      <a href="#process">Как работаем</a>
+      <a href="#layers">Что внутри</a>
+      <a href="#calc">Стоимость</a>
+      <a href="#works">Работы</a>
+    </nav>
+    <a class="header-phone" data-cfg-href="tel" data-cfg="phone" href="tel:+70000000000">+7 (000) 000-00-00</a>
+    <a class="btn btn-small" href="#contact">Вызвать замерщика</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 class="hero-title">
+          <span class="line">Лоджия,</span>
+          <span class="line">на которой тепло</span>
+          <span class="line">в январе</span>
+        </h1>
+        <p class="hero-lead">Остекляем, утепляем и отделываем балконы под ключ. Одна бригада, один договор и смета, которая не растёт в процессе.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#contact">Записаться на бесплатный замер</a>
+          <a class="btn btn-ghost" href="#calc">Рассчитать стоимость</a>
+        </div>
+        <dl class="hero-facts">
+          <div><dt>7–14 дней</dt><dd>от замера до уборки</dd></div>
+          <div><dt>0 ₽</dt><dd>выезд и замер</dd></div>
+          <div><dt data-cfg="warranty">5 лет</dt><dd>гарантия на работы</dd></div>
+        </dl>
+      </div>
+
+      <div class="hero-visual">
+        <figure class="ph ph-hero is-loaded">
+          <img src="assets/img/gen/hero.webp" width="1600" height="2000" fetchpriority="high" alt="Утеплённая лоджия с деревянной отделкой зимним вечером">
+        </figure>
+        <div class="thermo" aria-label="Температура: на улице минус 18, на лоджии плюс 22">
+          <div class="thermo-row cold"><span>На улице</span><b>−18°</b></div>
+          <div class="thermo-row warm"><span>На лоджии</span><b><span class="js-temp">+22</span>°</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="what">
+    <div class="wrap services-grid">
+      <div class="services-intro">
+        <h2 class="h2">Делаем всё, что внутри балкона</h2>
+        <p class="muted">Можно заказать весь комплекс или отдельные работы. Цены ориентировочные, точную сумму мастер назовёт на замере, и она войдёт в договор.</p>
+        <a class="link-arrow" href="#calc">Собрать свой вариант в калькуляторе</a>
+      </div>
+      <ul class="works-list" role="list">
+        <li><span class="w-name">Остекление</span><span class="w-note">Тёплое ПВХ или холодное алюминиевое, с москитными сетками</span><span class="w-price">от 8 500 ₽ / м²</span></li>
+        <li><span class="w-name">Утепление</span><span class="w-note">Пол, стены и потолок: пеноплекс, пенофол, герметизация швов</span><span class="w-price">от 2 000 ₽ / м²</span></li>
+        <li><span class="w-name">Отделка стен</span><span class="w-note">Вагонка, ПВХ, МДФ, покраска или декоративная штукатурка</span><span class="w-price">от 3 000 ₽ / м²</span></li>
+        <li><span class="w-name">Пол</span><span class="w-note">Ламинат, кварцвинил или плитка на ровное основание</span><span class="w-price">от 3 500 ₽ / м²</span></li>
+        <li><span class="w-name">Тёплый пол</span><span class="w-note">Плёночный или электрический кабель, с терморегулятором</span><span class="w-price">от 4 500 ₽ / м²</span></li>
+        <li><span class="w-name">Электрика и свет</span><span class="w-note">Розетки, выключатели, точечные светильники, LED-подсветка</span><span class="w-price">от 2 000 ₽ / точка</span></li>
+        <li><span class="w-name">Подоконники и столешницы</span><span class="w-note">ПВХ, ЛДСП или массив дерева, можно рабочее место</span><span class="w-price">от 3 500 ₽ / пог. м</span></li>
+        <li><span class="w-name">Шкафы и тумбы</span><span class="w-note">Встроенные под размер, для заготовок, инструмента, колёс</span><span class="w-price">от 32 000 ₽ / пог. м</span></li>
+        <li><span class="w-name">Вынос и расширение</span><span class="w-note">Расширяем балкон по подоконнику или по плите</span><span class="w-price">от 6 500 ₽ / пог. м</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process" aria-labelledby="process-title">
+    <div class="process-pin">
+      <div class="wrap process-head">
+        <h2 class="h2" id="process-title">Как всё проходит</h2>
+        <p class="muted">Пять шагов. От вас нужен один звонок и одна встреча.</p>
+        <div class="process-progress" aria-hidden="true"><span></span></div>
+      </div>
+      <ol class="steps" role="list">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Звонок</h3>
+            <p>Расскажите, что хотите получить. Ответим на вопросы, назовём вилку цен и запишем на замер в удобный день.</p>
+            <p class="step-meta">5 минут · можно прислать фото балкона в мессенджер</p>
+          </div>
+          <figure class="ph ph-step" data-img="assets/img/gen/step-1-call.webp" data-label="step-1-call.webp"><img alt="Разговор с менеджером по телефону" hidden></figure>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Замер</h3>
+            <p>Мастер приезжает с образцами отделки, снимает размеры и показывает варианты на месте. Смету получаете в тот же день.</p>
+            <p class="step-meta">Бесплатно · около 40 минут</p>
+          </div>
+          <figure class="ph ph-step" data-img="assets/img/gen/step-2-measure.webp" data-label="step-2-measure.webp"><img alt="Мастер измеряет лоджию лазерной рулеткой" hidden></figure>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Договор</h3>
+            <p>Фиксируем в договоре цену, материалы и срок. Сумма не меняется по ходу работ. Платите по этапам: аванс на материалы, остаток после сдачи.</p>
+            <p class="step-meta">Можно заключить прямо на замере</p>
+          </div>
+          <figure class="ph ph-step" data-img="assets/img/gen/step-3-contract.webp" data-label="step-3-contract.webp"><img alt="Договор и смета с образцами материалов" hidden></figure>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>Работы</h3>
+            <p>Демонтаж, остекление, утепление, электрика и отделка. Работает одна бригада, каждый вечер присылаем фотоотчёт.</p>
+            <p class="step-meta">7–14 дней · шумные работы в разрешённые часы</p>
+          </div>
+          <figure class="ph ph-step" data-img="assets/img/gen/step-4-works.webp" data-label="step-4-works.webp"><img alt="Утепление стен лоджии пеноплексом" hidden></figure>
+        </li>
+        <li class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h3>Сдача</h3>
+            <p>Проверяем всё вместе с вами: окна, розетки, тёплый пол. Вывозим мусор, подписываем акт и выдаём гарантию.</p>
+            <p class="step-meta" data-cfg="warrantyLine">Гарантия на работы 5 лет</p>
+          </div>
+          <figure class="ph ph-step" data-img="assets/img/gen/step-5-handover.webp" data-label="step-5-handover.webp"><img alt="Готовая лоджия, мастер передаёт ключи хозяйке" hidden></figure>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- LAYERS 3D -->
+  <section class="layers" id="layers" aria-labelledby="layers-title">
+    <div class="layers-pin">
+      <div class="wrap layers-grid">
+        <div class="layers-copy">
+          <h2 class="h2" id="layers-title">Что внутри стен</h2>
+          <p class="muted">Тепло держит не отделка, а пирог под ней. Прокрутите, чтобы разобрать его на слои, или наведите на любой слой.</p>
+          <ol class="layer-list" role="list" aria-label="Слои утепления"></ol>
+          <p class="layer-detail" aria-live="polite"></p>
+        </div>
+        <div class="layers-stage">
+          <div class="layers-canvas" id="layers3d"></div>
+          <div class="layers-labels" aria-hidden="true"></div>
+          <figure class="ph ph-layers" data-img="assets/img/gen/layers-cutaway.webp" data-label="layers-cutaway.webp: разрез утепления, запасная картинка" hidden><img alt="Разрез утеплённой стены и пола лоджии по слоям" hidden></figure>
+          <div class="temp-scale" aria-hidden="true"><span>−18° улица</span><i></i><span>+22° внутри</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="calc" id="calc" aria-labelledby="calc-title">
+    <div class="wrap">
+      <div class="calc-head">
+        <h2 class="h2" id="calc-title">Сколько это будет стоить</h2>
+        <p class="muted">Выберите, что нужно, и увидите примерную сумму. На замере мастер уточнит её и зафиксирует в договоре.</p>
+      </div>
+
+      <form class="calc-grid" id="calcForm" novalidate>
+        <div class="calc-fields">
+
+          <fieldset class="field">
+            <legend>Что ремонтируем</legend>
+            <div class="seg" role="radiogroup">
+              <label><input type="radio" name="type" value="balcony"><span>Балкон</span></label>
+              <label><input type="radio" name="type" value="loggia" checked><span>Лоджия</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="area" class="field-label">Площадь пола <output id="areaOut" for="area">6 м²</output></label>
+            <input type="range" id="area" name="area" min="2" max="15" step="0.5" value="6">
+            <div class="range-hint"><span>2 м²</span><span>обычно 3–6 м² у балкона, 6–9 м² у лоджии</span><span>15 м²</span></div>
+          </div>
+
+          <fieldset class="field">
+            <legend>Остекление</legend>
+            <div class="seg seg-3" role="radiogroup">
+              <label><input type="radio" name="glazing" value="none"><span>Уже есть</span></label>
+              <label><input type="radio" name="glazing" value="cold"><span>Холодное</span></label>
+              <label><input type="radio" name="glazing" value="warm" checked><span>Тёплое</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend>Отделка стен</legend>
+            <div class="swatches" role="radiogroup">
+              <label class="swatch"><input type="radio" name="finish" value="pvc"><span class="sw sw-pvc"></span><span>Панели ПВХ</span></label>
+              <label class="swatch"><input type="radio" name="finish" value="lining" checked><span class="sw sw-lining"></span><span>Вагонка</span></label>
+              <label class="swatch"><input type="radio" name="finish" value="mdf"><span class="sw sw-mdf"></span><span>МДФ</span></label>
+              <label class="swatch"><input type="radio" name="finish" value="paint"><span class="sw sw-paint"></span><span>Покраска</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend>Пол</legend>
+            <div class="seg seg-3" role="radiogroup">
+              <label><input type="radio" name="floor" value="laminate" checked><span>Ламинат</span></label>
+              <label><input type="radio" name="floor" value="vinyl"><span>Кварцвинил</span></label>
+              <label><input type="radio" name="floor" value="tile"><span>Плитка</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend>Дополнительно</legend>
+            <div class="toggles">
+              <label class="toggle"><input type="checkbox" name="insulation" checked><span>Утепление пола, стен и потолка</span></label>
+              <label class="toggle"><input type="checkbox" name="heated" checked><span>Тёплый пол</span></label>
+              <label class="toggle"><input type="checkbox" name="lights"><span>LED-подсветка и точечный свет</span></label>
+              <label class="toggle"><input type="checkbox" name="sill" checked><span>Подоконник</span></label>
+              <label class="toggle"><input type="checkbox" name="cabinet"><span>Встроенный шкаф или тумба</span></label>
+              <label class="toggle only-balcony"><input type="checkbox" name="extend"><span>Вынос и расширение</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field field-inline">
+            <span class="field-label" id="socketsLabel">Розетки</span>
+            <div class="stepper" role="group" aria-labelledby="socketsLabel">
+              <button type="button" data-step="-1" aria-label="Меньше розеток">−</button>
+              <output id="sockets" aria-live="polite">2</output>
+              <button type="button" data-step="1" aria-label="Больше розеток">+</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="calc-result" aria-live="polite">
+          <img class="calc-mascot" src="assets/img/brand/mascot.webp" width="560" height="484" alt="" loading="lazy">
+          <p class="r-label">Примерная стоимость под ключ</p>
+          <p class="r-total"><span id="total">—</span></p>
+          <p class="r-range" id="range"></p>
+          <ul class="r-lines" id="lines" role="list"></ul>
+          <p class="r-time">Срок: <b id="days">—</b></p>
+          <a class="btn btn-block" href="#contact" id="calcCta">Записаться на замер с этим расчётом</a>
+          <p class="r-note">Работа, материалы, вывоз мусора. Точную сумму назовём на замере, после подписания договора она не меняется.</p>
+        </aside>
+      </form>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section class="works" id="works" aria-labelledby="works-title">
+    <div class="wrap works-head">
+      <h2 class="h2" id="works-title">Наши работы</h2>
+      <p class="muted">Фото с объектов, без ретуши. Больше работ и отзывы клиентов в нашем профиле на Авито.</p>
+      <a class="link-arrow" data-cfg-href="avito" href="#" target="_blank" rel="noopener">Открыть профиль на Авито</a>
+    </div>
+
+    <div class="ba wrap" aria-label="Сравнение до и после" hidden>
+      <div class="ba-frame">
+        <figure class="ph ba-img ba-after" data-img="assets/img/avito/after.webp" data-label="after.webp: та же лоджия после ремонта"><img alt="Лоджия после ремонта" hidden></figure>
+        <figure class="ph ba-img ba-before" data-img="assets/img/avito/before.webp" data-label="before.webp: лоджия до ремонта"><img alt="Лоджия до ремонта" hidden></figure>
+        <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Сдвиньте, чтобы сравнить до и после">
+        <span class="ba-tag ba-tag-l">До</span><span class="ba-tag ba-tag-r">После</span>
+      </div>
+    </div>
+
+    <div class="gallery" tabindex="0" aria-label="Галерея работ, листается горизонтально">
+      <div class="gallery-track" id="galleryTrack"></div>
+    </div>
+  </section>
+
+  <!-- DIRECTOR -->
+  <section class="director" id="director" aria-labelledby="director-title">
+    <div class="wrap director-grid">
+      <figure class="director-photo">
+        <img src="assets/img/team/director.webp" width="683" height="1024" alt="Руководитель компании" data-cfg-alt="directorName" loading="lazy">
+      </figure>
+      <div class="director-copy">
+        <h2 class="h2" id="director-title">Отвечаю за каждый балкон лично</h2>
+        <blockquote>
+          <p>Мы не берём больше объектов, чем можем сделать хорошо. Я сам проверяю каждую лоджию перед сдачей, а мой номер есть у каждого клиента. Если что-то пошло не так, звоните мне напрямую.</p>
+        </blockquote>
+        <p class="director-name"><b data-cfg="directorName">Руслан</b><span>руководитель компании</span></p>
+        <dl class="director-facts">
+          <div><dt data-cfg="years">10+ лет</dt><dd>занимаемся балконами</dd></div>
+          <div><dt data-cfg="objects">500+</dt><dd>сданных объектов</dd></div>
+          <div><dt>1 бригада</dt><dd>от замера до сдачи, без субподряда</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq-grid">
+      <h2 class="h2" id="faq-title">Частые вопросы</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Можно ли делать ремонт зимой?</summary>
+          <p>Да. Сначала ставим остекление и закрываем контур, дальше работаем в тепле. Монтажная пена и клеи у нас зимние.</p>
+        </details>
+        <details>
+          <summary>Цена точно не вырастет?</summary>
+          <p>Сумма из договора окончательная. Если вы сами решите что-то добавить по ходу работ, оформим это отдельным допсоглашением с ценой заранее.</p>
+        </details>
+        <details>
+          <summary>Как платить?</summary>
+          <p>По этапам: аванс на материалы после подписания договора, остаток после сдачи и подписания акта. Можно наличными или переводом.</p>
+        </details>
+        <details>
+          <summary>Нужно ли согласовывать остекление или вынос?</summary>
+          <p>Обычное остекление в пределах балкона согласования, как правило, не требует. Вынос и изменение фасада могут потребовать согласования с управляющей компанией. Подскажем на замере, что нужно в вашем доме.</p>
+        </details>
+        <details>
+          <summary>Сколько будет грязи и шума?</summary>
+          <p>Шумные работы делаем в разрешённые часы. Проход в квартире застилаем плёнкой, мусор вывозим каждый день и полностью при сдаче.</p>
+        </details>
+        <details>
+          <summary>Будет ли тепло без батареи?</summary>
+          <p>С тёплым остеклением и полным утеплением лоджия держит комнатную температуру за счёт тепла квартиры. Тёплый пол добавляет комфорта и позволяет сделать на лоджии кабинет или зону отдыха.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="contact-copy">
+        <h2 class="h2" id="contact-title">Запишитесь на бесплатный замер</h2>
+        <p>Оставьте телефон, перезвоним в течение 15 минут в рабочее время и подберём удобный день.</p>
+        <div class="contact-direct">
+          <a class="contact-phone" data-cfg-href="tel" data-cfg="phone" href="tel:+70000000000">+7 (000) 000-00-00</a>
+          <div class="messengers">
+            <a class="btn btn-ghost-light" data-cfg-href="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="btn btn-ghost-light" data-cfg-href="telegram" href="#" target="_blank" rel="noopener">Telegram</a>
+          </div>
+          <p class="contact-hours" data-cfg="hours">Ежедневно с 9:00 до 21:00</p>
+        </div>
+      </div>
+
+      <form class="lead-form" id="leadForm" novalidate>
+        <label class="lf">
+          <span>Как к вам обращаться</span>
+          <input type="text" name="name" autocomplete="name" placeholder="Имя">
+        </label>
+        <label class="lf">
+          <span>Телефон</span>
+          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required>
+          <em class="lf-error" hidden>Введите номер полностью, чтобы мы могли перезвонить</em>
+        </label>
+        <label class="lf">
+          <span>Что хотите сделать <i>(необязательно)</i></span>
+          <textarea name="comment" rows="3" placeholder="Например: утеплить лоджию и сделать кабинет"></textarea>
+        </label>
+        <input type="hidden" name="estimate" id="estimateField">
+        <p class="lf-estimate" id="estimateNote" hidden></p>
+        <button class="btn btn-block" type="submit">Записаться на замер</button>
+        <p class="lf-legal">Нажимая кнопку, вы соглашаетесь на обработку персональных данных для обратной связи.</p>
+        <div class="lf-done" hidden>
+          <img class="done-mascot" src="assets/img/brand/mascot.webp" width="560" height="484" alt="" loading="lazy">
+          <p class="lf-done-title">Заявка принята</p>
+          <p>Перезвоним в течение 15 минут в рабочее время. Если удобнее, напишите нам в мессенджер.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <p><b data-cfg="company">Тёплая лоджия</b><br><span data-cfg="legal">ИП / ООО, ИНН 0000000000</span></p>
+    <p><span data-cfg="city">Город и область</span><br><a data-cfg-href="tel" data-cfg="phone" href="tel:+70000000000">+7 (000) 000-00-00</a></p>
+    <p class="footer-small">Цены на сайте ориентировочные и не являются публичной офертой.</p>
+  </div>
+</footer>
+
+<nav class="mobile-bar" aria-label="Быстрые действия">
+  <a data-cfg-href="tel" href="tel:+70000000000">Позвонить</a>
+  <a href="#calc">Рассчитать</a>
+  <a class="mb-accent" href="#contact">Замер</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/calc.js" defer></script>
+<script src="js/main.js" defer></script>
+<script type="module" src="js/layers-section.js"></script>
+</body>
+</html>

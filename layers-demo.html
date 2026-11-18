@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layers 3D — демо</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+<style>
+  :root {
+    --frost: #E7ECEB; --ink: #17212B; --steel: #5D6B78; --concrete: #B9C1C2;
+    --penoplex: #F26A1B; --pine: #E2C29C;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--frost); color: var(--ink);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { padding: 28px 24px 8px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 4px; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--steel); }
+  #stage { position: relative; width: 100%; height: 80vh; overflow: hidden; }
+  #labels { position: absolute; inset: 0; pointer-events: none; }
+  .pin { position: absolute; left: 0; top: 0; will-change: transform; transition: opacity .25s; }
+  .pin i { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ink); box-shadow: 0 0 0 2px var(--frost); }
+  .pin span { position: absolute; left: 14px; top: -11px; white-space: nowrap; font-size: 12px;
+    padding: 3px 8px; border-radius: 3px; background: rgba(231,236,235,.92); border: 1px solid rgba(23,33,43,.15); }
+  .pin span b { color: var(--penoplex); font-weight: 600; margin-left: 6px; }
+  .pin.dim { opacity: .0; }
+  .pin.active i { background: var(--penoplex); }
+  .pin.active { z-index: 2; }
+  #fallback { display: none; position: absolute; inset: 0; place-items: center; color: var(--steel); }
+  .controls { max-width: 1200px; margin: 0 auto; padding: 16px 24px 48px; display: grid; gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 800px) { .controls { grid-template-columns: 1fr; } }
+  label.range { display: block; font-weight: 600; margin-bottom: 8px; }
+  input[type=range] { width: 100%; accent-color: var(--penoplex); }
+  #info { margin-top: 16px; min-height: 64px; padding: 12px 14px; border-left: 3px solid var(--penoplex);
+    background: rgba(255,255,255,.45); }
+  #info strong { display: block; }
+  #info small { color: var(--steel); }
+  h3 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--steel); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { padding: 7px 10px; border-radius: 4px; cursor: default; display: flex; justify-content: space-between; gap: 12px; }
+  li .t { color: var(--steel); font-variant-numeric: tabular-nums; }
+  li.on { background: var(--ink); color: var(--frost); }
+  li.on .t { color: var(--penoplex); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Утеплённая лоджия в разрезе</h1>
+  <p>Наведите на слой. Сдвиньте ползунок, чтобы разнести пирог.</p>
+</header>
+
+<div id="stage">
+  <div id="labels"></div>
+  <div id="fallback">3D недоступно — здесь была бы статичная картинка.</div>
+</div>
+
+<section class="controls">
+  <div>
+    <label class="range" for="explode">Разнос слоёв: <span id="ev">0.00</span></label>
+    <input id="explode" type="range" min="0" max="1" step="0.001" value="0">
+    <div id="info"><small>Слой не выбран</small></div>
+  </div>
+  <div><h3>Стена</h3><ul id="list-wall"></ul></div>
+  <div><h3>Пол</h3><ul id="list-floor"></ul></div>
+</section>
+
+<script type="module">
+import { createLayers3D } from './js/layers3d.js';
+
+const stage = document.getElementById('stage');
+const labels = document.getElementById('labels');
+const info = document.getElementById('info');
+const fmt = (t) => (t > 0 ? '+' : t < 0 ? '−' : '') + Math.abs(t) + '°';
+
+let ctl;
+const pins = new Map(), items = new Map();
+let active = null;
+
+function setActive(layer) {
+  active = layer ? layer.id : null;
+  items.forEach((li, id) => li.classList.toggle('on', id === active));
+  pins.forEach((p, id) => p.classList.toggle('active', id === active));
+  info.innerHTML = layer
+    ? `<strong>${layer.name} · ${fmt(layer.temp)}</strong><small>${layer.note}</small>`
+    : '<small>Слой не выбран</small>';
+  syncLabels();
+}
+
+function syncLabels() {
+  if (!ctl) return;
+  const showAll = ctl.explode > 0.4;
+  for (const layer of ctl.layers) {
+    const pin = pins.get(layer.id);
+    const p = ctl.project(layer.id);
+    pin.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px)`;
+    const isActive = layer.id === active;
+    pin.classList.toggle('dim', !(isActive || showAll) || !p.visible);
+    pin.querySelector('span').style.display = isActive ? '' : 'none';
+  }
+}
+
+try {
+  ctl = createLayers3D(stage, {
+    autoRotate: true,
+    onLayerChange: setActive,
+    onRender: syncLabels,
+  });
+} catch (err) {
+  console.warn(err);
+  document.getElementById('fallback').style.display = 'grid';
+}
+
+if (ctl) {
+  for (const layer of ctl.layers) {
+    const pin = document.createElement('div');
+    pin.className = 'pin dim';
+    pin.innerHTML = `<i></i><span>${layer.name}<b>${fmt(layer.temp)}</b></span>`;
+    labels.appendChild(pin); pins.set(layer.id, pin);
+
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${layer.name}</span><span class="t">${fmt(layer.temp)}</span>`;
+    li.addEventListener('mouseenter', () => { ctl.highlight(layer.id); setActive(layer); });
+    li.addEventListener('mouseleave', () => { ctl.highlight(null); setActive(null); });
+    document.getElementById('list-' + layer.group).appendChild(li);
+    items.set(layer.id, li);
+  }
+  const range = document.getElementById('explode');
+  const ev = document.getElementById('ev');
+  range.addEventListener('input', () => {
+    ctl.setExplode(+range.value);
+    ev.textContent = (+range.value).toFixed(2);
+  });
+  window.ctl = ctl; // для отладки
+}
+</script>
+</body>
+</html>
