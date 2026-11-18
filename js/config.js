@@ -9,7 +9,7 @@ window.SITE = {
   whatsapp: "70000000000",               // уточнить: номер WhatsApp без +
   telegram: "",                          // уточнить: ник без @, например "teplaya_lodzhia"
   avito: "https://www.avito.ru/user/18f7bb2909eb093414059eeb33ec2eb9/profile",
-  city: "Город и область",               // уточнить
+  city: "Санкт-Петербург",
   hours: "Ежедневно с 9:00 до 21:00",    // уточнить
   legal: "ИП / ООО, ИНН 0000000000",     // уточнить
   directorName: "Руслан",

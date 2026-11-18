@@ -18,8 +18,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/bg-variants.css">
-  <script>(function(){var m=location.search.match(/[?&]bg=([abc])/);if(m)document.documentElement.classList.add("bg-"+m[1]);})();</script>
 
   <script type="importmap">
     { "imports": {
@@ -76,7 +74,10 @@
           <img src="assets/img/gen/hero.webp" width="1600" height="2000" fetchpriority="high" alt="Утеплённая лоджия с деревянной отделкой зимним вечером">
         </figure>
         <div class="thermo" aria-label="Температура: на улице минус 18, на лоджии плюс 22">
-          <div class="thermo-row cold"><span>На улице</span><b>−18°</b></div>
+          <div class="thermo-row cold">
+            <span class="wx"><i class="wx-icon" aria-hidden="true"></i><span class="wx-text"><span class="js-wx-label">На улице</span><small class="js-wx-desc" hidden></small></span></span>
+            <b class="js-out">−18°</b>
+          </div>
           <div class="thermo-row warm"><span>На лоджии</span><b><span class="js-temp">+22</span>°</b></div>
         </div>
       </div>
@@ -420,6 +421,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js" defer></script>
+<script src="js/weather.js" defer></script>
 <script src="js/config.js" defer></script>
 <script src="js/calc.js" defer></script>
 <script src="js/main.js" defer></script>

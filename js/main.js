@@ -125,11 +125,16 @@
     const el = $(".js-temp");
     if (!el) return;
     if (reduce) { el.textContent = "+22"; return; }
-    const o = { t: -18 };
-    const set = () => { const v = Math.round(o.t); el.textContent = (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v); };
-    set();
-    if (window.gsap) window.gsap.to(o, { t: 22, duration: 2.2, delay: 0.6, ease: "power2.out", onUpdate: set });
-    else el.textContent = "+22";
+    const set = (o) => { const v = Math.round(o.t); el.textContent = (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v); };
+    // ждём реальную погоду не дольше 1,5 с, иначе стартуем с −18
+    const wait = new Promise((ok) => setTimeout(() => ok(null), 1500));
+    Promise.race([window.__wx || Promise.resolve(null), wait]).then((w) => {
+      const from = w && typeof w.t === "number" ? Math.min(w.t, 21) : -18;
+      const o = { t: from };
+      set(o);
+      if (window.gsap) window.gsap.to(o, { t: 22, duration: 2.2, delay: 0.3, ease: "power2.out", onUpdate: () => set(o) });
+      else el.textContent = "+22";
+    });
   }
 
   function motion() {
